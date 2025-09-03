@@ -1,221 +1,138 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="te">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ARJUNMEDIANEWS</title>
+  <title>ARJUN MEDIA NEWS</title>
   <style>
-    /* Global Styles */
-    body {<div class="news-article">
-  <h2>Breaking: Heavy Rains in Hyderabad</h2>
-  <p>Today Hyderabad witnessed heavy rainfall, causing traffic jams across major roads...</p>
-  <small>Published on: Sept 3, 2025</small>
-</div>
-
-<div class="news-article">
-  <h2>Sports Update: India Wins Match</h2>
-  <p>India defeated Australia in a thrilling cricket match. Fans are celebrating...</p>
-  <small>Published on: Sept 3, 2025</small>
-</div>
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #fefefe;
-      color: #333;
-    }
-
-    header {
-      background: linear-gradient(90deg, #ffb347, #87ceeb);
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-
-    /* News Ticker */
-    .ticker {
-      background: #ff8c42;
-      color: white;
-      overflow: hidden;
-      white-space: nowrap;
-      box-sizing: border-box;
-      padding: 10px 0;
-    }
-
-    .ticker span {
-      display: inline-block;
-      padding-left: 100%;
-      animation: ticker 20s linear infinite;
-      font-weight: bold;
-    }
-
-    @keyframes ticker {
-      0%   { transform: translateX(0%); }
-      100% { transform: translateX(-100%); }
-    }
-
-    /* Sticky Navigation */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #87ceeb;
-    }
-
-    nav a {
-      color: white;
-      padding: 14px 20px;
-      text-decoration: none;
-      font-weight: bold;
-      display: block;
-    }
-
-    nav a:hover {
-      background-color: #ffb347;
-      transition: 0.3s;
-    }
-
-    /* Hamburger Icon */
-    .menu-toggle {
-      display: none;
-      font-size: 26px;
-      color: white;
-      cursor: pointer;
-      padding: 14px 20px;
-    }
-
-    .nav-links {
-      display: flex;
-    }
-
-    .container {
-      width: 90%;
-      margin: auto;
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 20px;
-      padding: 20px;
-    }
-
-    article {
-      background: #fff8f0;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
-    }
-
-    article h2 {
-      color: #ff8c42;
-    }
-
-    aside {
-      background: #f0faff;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-
-    footer {
-      text-align: center;
-      padding: 10px;
-      background: #87ceeb;
-      color: white;
-      margin-top: 20px;
-    }
-
-    /* Responsive for Tablets & Mobiles */
-    @media (max-width: 900px) {
-      .container {
-        grid-template-columns: 1fr;
-      }
-
-      .nav-links {
-        display: none;
-        flex-direction: column;
-        width: 100%;
-        text-align: center;
-      }
-
-      nav.active .nav-links {
-        display: flex;
-      }
-
-      .menu-toggle {
-        display: block;
-      }
-    }
+    body { font-family: "Noto Sans Telugu", Arial, sans-serif; margin:0; background:#f5f5f5; }
+    header { background:#ff6600; color:white; text-align:center; padding:15px; }
+    nav { background:#333; padding:10px; text-align:center; }
+    nav a { color:white; margin:0 12px; text-decoration:none; font-weight:bold; }
+    .breaking-news { background:red; color:white; font-weight:bold; padding:8px; }
+    marquee { font-size:16px; }
+    .container { max-width:1100px; margin:auto; padding:20px; }
+    .news-article { display:flex; background:white; margin-bottom:20px; border-radius:8px;
+      overflow:hidden; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
+    .news-article img { width:200px; height:140px; object-fit:cover; }
+    .news-content { padding:15px; }
+    .news-content h2 { margin:0; font-size:20px; color:#ff6600; }
+    .news-content p { color:#333; font-size:15px; margin-top:8px; }
+    footer { background:#333; color:white; text-align:center; padding:15px; margin-top:30px; }
+    #editor { display:none; background:white; padding:20px; margin:20px; border-radius:8px; }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
   <header>
-    <h1>My News Website</h1>
-    <p>Latest Updates – Light Orange & Light Blue Theme</p>
+    <h1>ARJUN MEDIA NEWS</h1>
+    <p>తెలుగు లో తాజా వార్తలు</p>
+    <button onclick="loginWithGoogle()">Login with Google</button>
   </header>
 
-  <!-- News Ticker -->
-  <div class="ticker">
-    <span>🔥 Breaking: Elections 2025 schedule announced | ⚽ Football League finals next week | 📱 New smartphone launch creates buzz | 🌍 Climate change talks to begin in Delhi</span>
+  <div class="breaking-news">
+    <marquee behavior="scroll" direction="left" id="breakingBar">Loading Breaking News...</marquee>
   </div>
 
-  <!-- Navigation -->
-  <nav id="navbar">
-    <span class="menu-toggle" id="menu-toggle">&#9776;</span>
-    <div class="nav-links">
-      <a href="#">Home</a>
-      <a href="#">Politics</a>
-      <a href="#">Sports</a>
-      <a href="#">Tech</a>
-      <a href="#">Contact</a>
-    </div>
+  <nav>
+    <a href="#">హోమ్</a>
+    <a href="#">పోలిటిక్స్</a>
+    <a href="#">సినిమా</a>
+    <a href="#">క్రీడలు</a>
+    <a href="#">టెక్నాలజీ</a>
   </nav>
 
-  <!-- Main Content -->
-  <div class="container">
-    <main>
-      <article>
-        <h2>Breaking News Title</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur at bibendum est.</p>
-      </article>
-
-      <article>
-        <h2>Technology Update</h2>
-        <p>Quisque euismod nunc ac nisi malesuada, et pharetra nisl dapibus. Sed sit amet felis vel lorem.</p>
-      </article>
-
-      <article>
-        <h2>Sports Headline</h2>
-        <p>Sed vulputate erat vel magna finibus, sit amet hendrerit nulla aliquet.</p>
-      </article>
-    </main>
-
-    <aside>
-      <h3>Trending Topics</h3>
-      <ul>
-        <li>🔥 Elections 2025</li>
-        <li>⚽ Football League</li>
-        <li>📱 New Smartphone Launch</li>
-        <li>🌍 Climate Change Updates</li>
-      </ul>
-    </aside>
+  <div class="container" id="newsList">
+    <!-- News will load here from Firebase -->
   </div>
 
-  <!-- Footer -->
+  <!-- Editor Panel (only visible after login) -->
+  <div id="editor">
+    <h2>📰 Add News</h2>
+    <input type="text" id="headline" placeholder="News Title" style="width:100%;padding:8px;"><br><br>
+    <textarea id="content" placeholder="News Content" style="width:100%;height:100px;padding:8px;"></textarea><br><br>
+    <input type="text" id="imageURL" placeholder="Image URL (Thumbnail)" style="width:100%;padding:8px;"><br><br>
+    <button onclick="postNews()">Post News</button>
+  </div>
+
   <footer>
-    <p>&copy; 2025 My News Website. All rights reserved.</p>
+    <p>© 2025 ARJUN MEDIA NEWS | అన్ని హక్కులు రిజర్వ్ చేయబడ్డాయి</p>
   </footer>
 
-  <!-- Script for Hamburger Menu -->
-  <script>
-    const menuToggle = document.getElementById("menu-toggle");
-    const navbar = document.getElementById("navbar");
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
 
-    menuToggle.addEventListener("click", () => {
-      navbar.classList.toggle("active");
-    });
+  <script>
+    // Replace with your Firebase Config
+    const firebaseConfig = {
+  apiKey: "AIzaSyD-XXXXXX",
+  authDomain: "arjun-media-news.firebaseapp.com",
+  projectId: "arjun-media-news",
+  storageBucket: "arjun-media-news.appspot.com",
+  messagingSenderId: "1234567890",
+  appId: "1:1234567890:web:abcdef123456"
+};
+
+    // Init Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // Google Login
+    function loginWithGoogle() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider).then((result) => {
+        document.getElementById("editor").style.display = "block";
+        alert("Welcome " + result.user.displayName);
+      }).catch((error) => {
+        alert("Login Failed: " + error.message);
+      });
+    }
+
+    // Post News
+    function postNews() {
+      const headline = document.getElementById("headline").value;
+      const content = document.getElementById("content").value;
+      const imageURL = document.getElementById("imageURL").value;
+      db.collection("news").add({
+        headline: headline,
+        content: content,
+        image: imageURL,
+        timestamp: Date.now()
+      }).then(() => {
+        alert("News Posted!");
+        loadNews();
+      });
+    }
+
+    // Load News
+    function loadNews() {
+      const newsList = document.getElementById("newsList");
+      const breakingBar = document.getElementById("breakingBar");
+      newsList.innerHTML = "";
+      db.collection("news").orderBy("timestamp","desc").get().then((snapshot) => {
+        let breaking = [];
+        snapshot.forEach((doc) => {
+          const data = doc.data();
+          newsList.innerHTML += `
+            <div class="news-article">
+              <img src="${data.image}" alt="News Image">
+              <div class="news-content">
+                <h2>${data.headline}</h2>
+                <p>${data.content}</p>
+              </div>
+            </div>
+          `;
+          breaking.push(data.headline);
+        });
+        breakingBar.innerHTML = breaking.join(" | ");
+      });
+    }
+
+    // Load news on start
+    loadNews();
   </script>
 
 </body>

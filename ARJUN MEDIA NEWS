@@ -1,0 +1,299 @@
+<!-- Save this file as index.html and upload to your GitHub repo root -->
+<!DOCTYPE html>
+<html lang="te">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ARJUN MEDIA NEWS - తెలుగు తాజా వార్తలు</title>
+
+  <!-- Telugu font (if not available on Google Fonts for Telugu, fallback to system) -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#fcfbff;
+      --card:#ffffff;
+      --accent1:#ff6a00; /* bright orange */
+      --accent2:#00a3ff; /* light blue */
+      --muted:#666;
+      --maxw:1100px;
+    }
+    *{box-sizing:border-box}
+    body{font-family:"Poppins", Arial, sans-serif;margin:0;background:linear-gradient(180deg,#f8fbff,#ffffff);color:#111}
+    header{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#fff;padding:18px 12px;text-align:center}
+    header h1{margin:0;font-size:22px;letter-spacing:0.4px}
+    header p{margin:6px 0 0;font-size:13px;opacity:0.95}
+    .top {max-width:var(--maxw);margin:auto;padding:12px;display:flex;gap:12px;align-items:center;justify-content:space-between}
+    .btn{background:#fff;color:#111;padding:8px 12px;border-radius:6px;cursor:pointer;font-weight:600;border:none}
+    .ticker{background:#d93d2a;color:#fff;padding:10px 12px;font-weight:700;overflow:hidden}
+    .ticker span{display:inline-block;white-space:nowrap;animation:scroll 18s linear infinite}
+    @keyframes scroll{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
+
+    nav{background:#012a4a;padding:10px;text-align:center}
+    nav a{color:#fff;margin:0 10px;text-decoration:none;font-weight:600;font-size:14px}
+
+    .container{max-width:var(--maxw);margin:20px auto;display:grid;grid-template-columns:2fr 1fr;gap:18px;padding:0 12px}
+
+    .card{background:var(--card);border-radius:10px;box-shadow:0 10px 30px rgba(20,30,40,0.06);overflow:hidden}
+    .mainpad{padding:14px}
+
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+    .news{border-radius:8px;overflow:hidden;background:var(--card);transition:transform .18s}
+    .news:hover{transform:translateY(-6px)}
+    .news img{width:100%;height:170px;object-fit:cover;display:block}
+    .meta{padding:12px}
+    .title{font-size:16px;color:#0b3b5c;font-weight:700;margin-bottom:8px}
+    .desc{color:var(--muted);font-size:14px;line-height:1.45}
+
+    aside .widget{padding:12px}
+    .adbox{background:#f2f5ff;border:2px dashed #dfecff;padding:24px;text-align:center;color:#556}
+    footer{background:#022d4b;color:#fff;text-align:center;padding:12px;margin-top:18px}
+
+    /* editor */
+    #editor{display:none;padding:12px}
+    #editor input,#editor textarea{width:100%;padding:8px;margin:6px 0;border-radius:6px;border:1px solid #ddd}
+    .row{display:flex;gap:8px}
+    @media(max-width:900px){
+      .container{grid-template-columns:1fr}
+      .top{flex-direction:column;align-items:flex-start}
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="top">
+      <div>
+        <h1>ARJUN MEDIA NEWS</h1>
+        <p>తెలుగు తాజా వార్తలు — హోమ్ | రాజకీయాలు | సినిమా | క్రీడలు | టెక్</p>
+      </div>
+      <div>
+        <button id="loginBtn" class="btn">Login with Google</button>
+        <button id="logoutBtn" class="btn" style="display:none">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="ticker card"><span id="tickerText">Loading breaking news...</span></div>
+
+  <nav>
+    <a href="#">హోమ్</a><a href="#">పోలిటిక్స్</a><a href="#">సినిమాలు</a><a href="#">క్రీడలు</a><a href="#">టెక్</a>
+  </nav>
+
+  <div class="container">
+    <!-- MAIN -->
+    <main>
+      <div class="card mainpad" style="margin-bottom:12px">
+        <!-- Top Ad Placeholder -->
+        <div class="adbox">Top Ad Placeholder (Paste AdSense unit here after approval)</div>
+      </div>
+
+      <div class="card mainpad">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <h2 style="margin:0">తాజా వార్తలు</h2>
+          <small style="color:var(--muted)">Auto-updates from Firestore</small>
+        </div>
+
+        <div id="newsGrid" class="grid">
+          <!-- news items inserted by JS -->
+        </div>
+      </div>
+
+      <div class="card mainpad" style="margin-top:12px;text-align:center">
+        <div class="adbox">In-article Ad Placeholder</div>
+      </div>
+    </main>
+
+    <!-- SIDEBAR -->
+    <aside>
+      <div class="card widget" style="margin-bottom:12px">
+        <h3 style="margin-top:0">Editor Panel</h3>
+        <div id="authInfo" style="margin-bottom:8px;color:var(--muted)">Not logged in</div>
+
+        <!-- EDITOR ONLY VISIBLE AFTER AUTH -->
+        <div id="editor">
+          <input id="title" placeholder="సర్‌‌హెడ్‌లైన్ (Telugu)"/>
+          <textarea id="content" rows="5" placeholder="కథనం - ఒక చిన్న ప్యారాగ్రాఫ్"></textarea>
+          <input id="imageFile" type="file" accept="image/*"/>
+          <small style="color:var(--muted)">లేక మీకు ఇమెజ్ URL ఉంటే క్రింది ఫీల్డ్‌లో పెట్టండి:</small>
+          <input id="imageURL" placeholder="Image URL (optional)"/>
+          <div style="margin-top:8px;display:flex;gap:8px">
+            <button id="postBtn" class="btn">Post News</button>
+            <button id="clearBtn" class="btn" style="background:#ffefe6">Clear</button>
+          </div>
+          <small style="display:block;margin-top:8px;color:var(--muted)">Only your Google email will be allowed to post.</small>
+        </div>
+      </div>
+
+      <div class="card widget">
+        <h4 style="margin:0 0 8px 0">Trending</h4>
+        <ol id="trending" style="padding-left:18px;color:var(--muted)"></ol>
+      </div>
+
+      <div class="card widget" style="margin-top:12px">
+        <div class="adbox">Sidebar Ad Placeholder</div>
+      </div>
+    </aside>
+  </div>
+
+  <footer>© 2025 ARJUN MEDIA NEWS — అన్ని హక్కులు రిజర్వ్ చేయబడ్డాయి</footer>
+
+  <!-- ===== Firebase (compat) SDKs =====
+       Use compat libs for simpler code (v9-compat). Replace with current versions if needed.
+  -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+
+  <script>
+  /***** 1) CONFIG - REPLACE with your Firebase project's config *****/
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "YOUR_MESSAGING_ID",
+    appId: "YOUR_APP_ID"
+  };
+  /***** ALSO set the single email allowed to post (YOUR EMAIL) *****/
+  const ALLOWED_EMAIL = "youremail@gmail.com"; // <<< replace this with your Google email
+
+  // initialize
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+  const storage = firebase.storage();
+
+  // DOM
+  const loginBtn = document.getElementById('loginBtn');
+  const logoutBtn = document.getElementById('logoutBtn');
+  const authInfo = document.getElementById('authInfo');
+  const editor = document.getElementById('editor');
+  const postBtn = document.getElementById('postBtn');
+  const clearBtn = document.getElementById('clearBtn');
+
+  // login with Google (popup)
+  loginBtn.addEventListener('click', () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider).catch(err => alert('Login error: ' + err.message));
+  });
+
+  logoutBtn.addEventListener('click', () => {
+    auth.signOut();
+  });
+
+  // auth state
+  auth.onAuthStateChanged(user => {
+    if(user){
+      authInfo.innerText = `Logged in as: ${user.email}`;
+      logoutBtn.style.display = 'inline-block';
+      loginBtn.style.display = 'none';
+      if(user.email === ALLOWED_EMAIL){
+        editor.style.display = 'block';
+      } else {
+        editor.style.display = 'none';
+        alert('This account is not authorized to post. Please use the allowed Google email.');
+        auth.signOut();
+      }
+    } else {
+      authInfo.innerText = 'Not logged in';
+      loginBtn.style.display = 'inline-block';
+      logoutBtn.style.display = 'none';
+      editor.style.display = 'none';
+    }
+  });
+
+  // Load news realtime
+  const newsGrid = document.getElementById('newsGrid');
+  const tickerText = document.getElementById('tickerText');
+  const trendingEl = document.getElementById('trending');
+
+  function renderNews(doc){
+    const data = doc.data();
+    const el = document.createElement('article');
+    el.className = 'news card';
+    el.innerHTML = `
+      <img src="${data.image || 'https://via.placeholder.com/600x400?text=No+Image'}" alt="thumb">
+      <div class="meta">
+        <div class="title">${escapeHtml(data.title)}</div>
+        <div class="desc">${escapeHtml(data.content).slice(0,180)}...</div>
+      </div>
+    `;
+    // click to open article page (article.html?id=DOCID)
+    el.querySelector('img').addEventListener('click', ()=> {
+      window.location.href = `article.html?id=${doc.id}`;
+    });
+    el.querySelector('.title').addEventListener('click', ()=> {
+      window.location.href = `article.html?id=${doc.id}`;
+    });
+    newsGrid.appendChild(el);
+  }
+
+  function escapeHtml(str){
+    if(!str) return '';
+    return str.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  }
+
+  // listen to news collection
+  db.collection('news').orderBy('timestamp','desc').onSnapshot(snapshot => {
+    newsGrid.innerHTML = '';
+    const titles = [];
+    const trending = [];
+    snapshot.forEach(doc => {
+      renderNews(doc);
+      titles.push(doc.data().title);
+      if(trending.length < 5) trending.push(doc.data().title);
+    });
+    tickerText.innerText = titles.join('  |  ');
+    trendingEl.innerHTML = trending.map(t => `<li>${escapeHtml(t)}</li>`).join('');
+  });
+
+  // Post news
+  postBtn.addEventListener('click', async () => {
+    const user = auth.currentUser;
+    if(!user || user.email !== ALLOWED_EMAIL){ alert('Not authorized'); return; }
+
+    const title = document.getElementById('title').value.trim();
+    const content = document.getElementById('content').value.trim();
+    const imageFile = document.getElementById('imageFile').files[0];
+    const imageURLfield = document.getElementById('imageURL').value.trim();
+
+    if(!title || !content){ alert('Title and content required'); return; }
+
+    let imageURL = imageURLfield || '';
+
+    try {
+      if(imageFile){
+        // upload to Firebase Storage
+        const path = `thumbnails/${Date.now()}_${imageFile.name}`;
+        const ref = storage.ref(path);
+        await ref.put(imageFile);
+        imageURL = await ref.getDownloadURL();
+      }
+
+      await db.collection('news').add({
+        title, content, image: imageURL,
+        author: user.email, timestamp: Date.now()
+      });
+
+      alert('News posted!');
+      // clear
+      document.getElementById('title').value = '';
+      document.getElementById('content').value = '';
+      document.getElementById('imageFile').value = '';
+      document.getElementById('imageURL').value = '';
+    } catch(err){
+      alert('Post failed: ' + err.message);
+    }
+  });
+
+  clearBtn.addEventListener('click', ()=> {
+    document.getElementById('title').value = '';
+    document.getElementById('content').value = '';
+    document.getElementById('imageFile').value = '';
+    document.getElementById('imageURL').value = '';
+  });
+  </script>
+</body>
+</html>
